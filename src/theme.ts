@@ -26,7 +26,7 @@ export const myTheme = createTheme({
       defaultProps: {
         InputLabelProps: {
           sx: {
-            ["&.Mui-focused"]: {
+            ["&.MuiInputLabel-shrink"]: {
               left: 0,
             },
             left: 8,
