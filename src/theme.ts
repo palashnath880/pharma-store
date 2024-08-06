@@ -9,7 +9,7 @@ const poppins = Poppins({
 });
 
 export const myTheme = createTheme({
-  palette: { primary: { main: "#009099" } },
+  palette: { primary: { main: "#009099" }, secondary: { main: "#283342" } },
   typography: {
     allVariants: {
       fontFamily: poppins.style.fontFamily,

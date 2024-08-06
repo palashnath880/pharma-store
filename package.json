@@ -23,7 +23,8 @@
     "prisma": "^5.17.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.52.2"
+    "react-hook-form": "^7.52.2",
+    "react-pro-sidebar": "^1.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
