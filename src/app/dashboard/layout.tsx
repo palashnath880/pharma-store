@@ -1,5 +1,5 @@
 import Sidebar from "@/components/shared/Sidebar";
-import Topbar from "@/components/shared/Topbar";
+import TopBar from "@/components/shared/Topbar";
 import React from "react";
 
 export default function Layout({
@@ -11,8 +11,8 @@ export default function Layout({
     <div className="w-screen h-screen">
       <div className="flex h-full overflow-hidden">
         <Sidebar />
-        <main>
-          <Topbar />
+        <main className="flex-1">
+          <TopBar />
           {children}
         </main>
       </div>
