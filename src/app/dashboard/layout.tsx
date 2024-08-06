@@ -11,9 +11,11 @@ export default function Layout({
     <div className="w-screen h-screen">
       <div className="flex h-full overflow-hidden">
         <Sidebar />
-        <main className="flex-1">
+        <main className="flex-1 flex flex-col">
           <TopBar />
-          {children}
+          <div className="flex-1 px-5 py-5">
+            <div className="w-full h-full overflow-y-auto">{children}</div>
+          </div>
         </main>
       </div>
     </div>
