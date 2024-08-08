@@ -40,7 +40,7 @@ export default function AddMedicineGroup({
     try {
       setIsLoading(true);
       setErrorMsg("");
-      axios.post(`/api/medicine-groups`, { name: value });
+      await axios.post(`/api/medicine-groups`, { name: value });
       setValue("");
       popupState.close();
       typeof refetch === "function" && refetch();
