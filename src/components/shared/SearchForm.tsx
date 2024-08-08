@@ -1,14 +1,9 @@
 "use client";
 
+import type { SearchFormProps } from "@/types/component.types";
 import { Search } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
-type SearchFormProps = {
-  placeholder: string;
-  value?: string | undefined;
-  onSearch?: (val: string) => void;
-};
 
 export default function SearchForm({
   placeholder,
@@ -28,7 +23,10 @@ export default function SearchForm({
   return (
     <form
       className="max-w-[300px]"
-      onSubmit={() => typeof onSearch === "function" && onSearch(input)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        typeof onSearch === "function" && onSearch(input);
+      }}
     >
       <TextField
         fullWidth

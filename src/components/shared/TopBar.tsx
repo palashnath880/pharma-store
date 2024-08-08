@@ -8,10 +8,15 @@ export default function TopBar() {
       {/* profile menu */}
       <div className="flex items-center gap-2">
         <div className="flex flex-col text-end">
-          <Typography variant="subtitle1" className="!font-semibold">
+          <Typography
+            variant="subtitle1"
+            className="!font-semibold !text-primary"
+          >
             Palash Nath
           </Typography>
-          <Typography variant="body2">palashnath@gmail.com</Typography>
+          <Typography variant="body2" className="!text-primary">
+            palashnath@gmail.com
+          </Typography>
         </div>
         <Avatar className="!cursor-pointer">Pk</Avatar>
       </div>

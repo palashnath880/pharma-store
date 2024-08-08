@@ -58,8 +58,8 @@ export default function Sidebar() {
       Icon: Inventory,
       group: true,
       menus: [
-        { href: "/medicines", label: "List Of Medicines" },
-        { href: "/medicine-groups", label: "Medicine Groups" },
+        { href: "/dashboard/medicines", label: "List Of Medicines" },
+        { href: "/dashboard/medicine-groups", label: "Medicine Groups" },
       ],
     },
     { label: "Reports", Icon: Timeline },
@@ -67,7 +67,7 @@ export default function Sidebar() {
     {
       label: "Notifications",
       Icon: NotificationsActive,
-      href: "/notifications",
+      href: "/dashboard/notifications",
     },
   ];
 

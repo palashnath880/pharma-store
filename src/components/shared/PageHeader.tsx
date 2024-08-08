@@ -1,11 +1,6 @@
+import { PageHeaderProps } from "@/types/component.types";
 import { Typography } from "@mui/material";
 import React from "react";
-
-type PageHeaderProps = {
-  title: React.ReactNode;
-  subtitle?: React.ReactNode;
-  rightAction?: React.ReactNode;
-};
 
 export default function PageHeader({
   title,

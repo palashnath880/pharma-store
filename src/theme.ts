@@ -19,7 +19,12 @@ export const myTheme = createTheme({
   components: {
     MuiButton: {
       defaultProps: {
-        style: { borderRadius: 9999, paddingTop: 10, paddingBottom: 10 },
+        style: {
+          borderRadius: 9999,
+          paddingTop: 10,
+          paddingBottom: 10,
+          lineHeight: "normal",
+        },
       },
     },
     MuiTextField: {
@@ -40,6 +45,26 @@ export const myTheme = createTheme({
         inputProps: {
           style: {
             paddingLeft: 20,
+          },
+        },
+      },
+    },
+    MuiTableCell: {
+      defaultProps: {
+        sx: {
+          ["&.MuiTableCell-head"]: {
+            fontWeight: 500,
+            backgroundColor: "#009099",
+            color: "#f2f2f2",
+          },
+        },
+      },
+    },
+    MuiTableRow: {
+      defaultProps: {
+        sx: {
+          ["&.MuiTableRow-root:nth-of-type(odd) .MuiTableCell-body"]: {
+            backgroundColor: "#f2f2f2",
           },
         },
       },

@@ -5,3 +5,9 @@ export type NavMenuItem = {
   href: string;
   label: string;
 };
+
+export type Group = {
+  name: string;
+  createdAt: string;
+  id: string;
+};
