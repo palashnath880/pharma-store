@@ -82,7 +82,7 @@ export default function Page() {
       )}
 
       {/* medicine groups table */}
-      {isSuccess && data?.data?.length >= 0 && (
+      {isSuccess && data?.data?.length > 0 && (
         <div className="mt-5">
           <Paper>
             <TableContainer component={Paper} sx={{ boxShadow: "none" }}>

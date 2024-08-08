@@ -31,15 +31,20 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const query = req.nextUrl.searchParams;
-    const page: number = query.get("page") ? query.get("page") : 1;
-    const limit: number = query.get("limit") ? query.get("limit") : 50;
-    const search: string = query.get("search") ? query.get("search") : "";
+    const page = query.get("page") || "1";
+    const limit = query.get("limit") || "50";
+    const search = query.get("search") || "";
 
     // count all groups
-    const count = await prisma.group.count();
+    const count = await prisma.group.count({
+      where: search ? { name: { contains: search } } : {},
+    });
 
     // get all groups
-    const groups = await prisma.group.findMany({});
+    const groups = await prisma.group.findMany({
+      where: search ? { name: { contains: search } } : {},
+      skip: (parseInt(page) - 1) * parseInt(limit),
+    });
 
     return NextResponse.json({
       count,
