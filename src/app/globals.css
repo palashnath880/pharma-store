@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* notistack css  */
+.notistack-MuiContent {
+  border-radius: 9999px !important;
+  background-color: #fff !important;
+}
+
+.notistack-MuiContent-error {
+  color: #f24d4d !important;
+}

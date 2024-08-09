@@ -2,7 +2,9 @@
 
 import Sidebar from "@/components/shared/Sidebar";
 import TopBar from "@/components/shared/Topbar";
-import { SnackbarProvider } from "notistack";
+import { Close } from "@mui/icons-material";
+import { IconButton, useTheme } from "@mui/material";
+import { closeSnackbar, SnackbarProvider } from "notistack";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -13,9 +15,29 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // mui theme
+  const theme = useTheme();
+
   return (
     <QueryClientProvider client={client}>
-      <SnackbarProvider>
+      <SnackbarProvider
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        maxSnack={5}
+        autoHideDuration={2000}
+        classes={{}}
+        action={(snackId) => (
+          <IconButton color="inherit" onClick={() => closeSnackbar(snackId)}>
+            <Close />
+          </IconButton>
+        )}
+      >
+        <style>
+          {`
+          .notistack-MuiContent-success{
+            color: ${theme.palette.primary.main} !important
+          }
+        `}
+        </style>
         <div className="w-screen h-screen">
           <div className="flex h-full overflow-hidden">
             <Sidebar />

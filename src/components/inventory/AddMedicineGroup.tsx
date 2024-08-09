@@ -15,6 +15,7 @@ import {
   bindTrigger,
   usePopupState,
 } from "material-ui-popup-state/hooks";
+import { enqueueSnackbar } from "notistack";
 import React, { FormEvent, FormEventHandler, useState } from "react";
 
 export default function AddMedicineGroup({
@@ -41,6 +42,7 @@ export default function AddMedicineGroup({
       setIsLoading(true);
       setErrorMsg("");
       await axios.post(`/api/medicine-groups`, { name: value });
+      enqueueSnackbar(`${value} added successfully`, { variant: "success" });
       setValue("");
       popupState.close();
       typeof refetch === "function" && refetch();

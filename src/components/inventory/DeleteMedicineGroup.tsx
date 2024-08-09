@@ -5,6 +5,7 @@ import React from "react";
 import DeleteConfirm from "../shared/DeleteConfirm";
 import { bindTrigger, usePopupState } from "material-ui-popup-state/hooks";
 import axios, { AxiosError } from "axios";
+import { enqueueSnackbar } from "notistack";
 
 export default function DeleteMedicineGroup({
   group,
@@ -21,6 +22,9 @@ export default function DeleteMedicineGroup({
     try {
       await axios.delete(`/api/medicine-groups/${group.id}`);
       popupState.close();
+      enqueueSnackbar(`${group.name} deleted successfully`, {
+        variant: "success",
+      });
       refetch();
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
