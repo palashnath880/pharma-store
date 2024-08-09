@@ -79,7 +79,7 @@ export default function Page() {
 
       {/* not found */}
       {isSuccess && data?.data?.length <= 0 && (
-        <EmptyMessage title="No Data Available" />
+        <EmptyMessage title="No Medicine Group Available" />
       )}
 
       {/* medicine groups table */}
