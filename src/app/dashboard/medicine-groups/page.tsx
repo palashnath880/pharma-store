@@ -1,5 +1,6 @@
 "use client";
 import AddMedicineGroup from "@/components/inventory/AddMedicineGroup";
+import DeleteMedicineGroup from "@/components/inventory/DeleteMedicineGroup";
 import EmptyMessage from "@/components/shared/EmptyMessage";
 import PageHeader from "@/components/shared/PageHeader";
 import SearchForm from "@/components/shared/SearchForm";
@@ -118,11 +119,10 @@ export default function Page() {
                           >
                             View Medicines
                           </Button>
-                          <Tooltip title={`Delete ${group.name}`}>
-                            <IconButton color="error">
-                              <Delete />
-                            </IconButton>
-                          </Tooltip>
+                          <DeleteMedicineGroup
+                            group={group}
+                            refetch={refetch}
+                          />
                         </span>
                       </TableCell>
                     </TableRow>
