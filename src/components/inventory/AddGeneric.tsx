@@ -14,7 +14,7 @@ import PopupState, { bindDialog, bindTrigger } from "material-ui-popup-state";
 import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
 
-export default function AddGeneric() {
+export default function AddGeneric({ refetch }: { refetch: () => void }) {
   // states
   const [value, setValue] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -27,6 +27,7 @@ export default function AddGeneric() {
       setIsLoading(true);
       setError("");
       await axios.post(`/api/medicine-generic`, { name: value });
+      refetch();
       enqueueSnackbar(<Typography>{value} generic name added.</Typography>, {
         variant: "success",
       });
