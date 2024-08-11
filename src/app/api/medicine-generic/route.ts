@@ -19,11 +19,12 @@ export async function POST(req: NextRequest) {
 
     // create
     const result = await prisma.generic.create({
-      data: { ...newGeneric, createdAt: moment.utc().toString() },
+      data: { ...newGeneric, createdAt: moment.utc() },
     });
 
     return NextResponse.json(result, { status: 201 });
   } catch (err) {
+    console.log(err);
     return NextResponse.json(err, { status: 400 });
   }
 }
@@ -44,6 +45,9 @@ export async function GET(req: NextRequest) {
     const generics = await prisma.generic.findMany({
       where: search ? { name: { contains: search } } : {},
       skip: (parseInt(page) - 1) * parseInt(limit),
+      orderBy: {
+        name: "asc",
+      },
     });
 
     return NextResponse.json({
