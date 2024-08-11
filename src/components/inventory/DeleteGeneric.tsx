@@ -7,7 +7,10 @@ import { bindTrigger, usePopupState } from "material-ui-popup-state/hooks";
 import axios, { AxiosError } from "axios";
 import { enqueueSnackbar } from "notistack";
 
-export default function DeleteGeneric({ group, refetch }: DeleteGenericProps) {
+export default function DeleteGeneric({
+  generic,
+  refetch,
+}: DeleteGenericProps) {
   // popup state
   const popupState = usePopupState({
     variant: "popover",
@@ -17,9 +20,9 @@ export default function DeleteGeneric({ group, refetch }: DeleteGenericProps) {
   // handle delete
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/medicine-generic/${group.id}`);
+      await axios.delete(`/api/medicine-generic/${generic.id}`);
       popupState.close();
-      enqueueSnackbar(`${group.name} deleted successfully`, {
+      enqueueSnackbar(`${generic.name} deleted successfully`, {
         variant: "success",
       });
       refetch();
@@ -33,7 +36,7 @@ export default function DeleteGeneric({ group, refetch }: DeleteGenericProps) {
 
   return (
     <>
-      <Tooltip title={`Delete ${group.name}`}>
+      <Tooltip title={`Delete ${generic.name}`}>
         <IconButton color="error" {...bindTrigger(popupState)}>
           <Delete />
         </IconButton>
