@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
     const result = await prisma.generic.create({
       data: {
         name: generic?.name,
-        createdAt: moment().utc().toString(),
       },
     });
 
