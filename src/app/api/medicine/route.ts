@@ -42,9 +42,12 @@ export async function GET(req: NextRequest) {
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     // total count
-    const count = await prisma.medicine.count();
+    const count = await prisma.medicine.count({
+      where: search ? { name: { contains: search } } : {},
+    });
 
     const data = await prisma.medicine.findMany({
+      where: search ? { name: { contains: search } } : {},
       skip: skip,
       include: { generic: true },
     });
