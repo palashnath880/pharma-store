@@ -14,5 +14,5 @@ export type LoginFormInputs = {
 
 export type MedicineFormInputs = {
   name: string;
-  generic: Generic | null;
+  generic: Generic | undefined;
 };

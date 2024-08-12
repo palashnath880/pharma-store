@@ -9,5 +9,6 @@ export type NavMenuItem = {
 export type Generic = {
   name: string;
   createdAt: string;
+  updatedAt: string;
   id: string;
 };
