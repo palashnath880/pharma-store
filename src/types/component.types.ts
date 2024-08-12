@@ -1,4 +1,4 @@
-import type { Group } from "./types";
+import type { Generic } from "./types";
 
 export type SearchFormProps = {
   placeholder: string;
@@ -12,8 +12,8 @@ export type PageHeaderProps = {
   rightAction?: React.ReactNode;
 };
 
-export type DeleteMedicineGroupProps = {
-  group: Group;
+export type DeleteGenericProps = {
+  generic: Generic;
   refetch: () => void;
 };
 

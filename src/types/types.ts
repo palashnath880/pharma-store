@@ -6,7 +6,7 @@ export type NavMenuItem = {
   label: string;
 };
 
-export type Group = {
+export type Generic = {
   name: string;
   createdAt: string;
   id: string;
