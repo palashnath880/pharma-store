@@ -1,7 +1,9 @@
 "use client";
 
+import type { MedicineFormInputs } from "@/types/reactHookForm.types";
 import { Add, Close } from "@mui/icons-material";
 import {
+  Autocomplete,
   Button,
   CircularProgress,
   Dialog,
@@ -13,25 +15,33 @@ import axios, { AxiosError } from "axios";
 import PopupState, { bindDialog, bindTrigger } from "material-ui-popup-state";
 import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 export default function AddMedicine({ refetch }: { refetch: () => void }) {
   // states
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [value, setValue] = useState<string>("");
+
+  // react-hook-form
+  const {
+    register,
+    control,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<MedicineFormInputs>();
 
   // submit handler
-  const addMedicine = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const addMedicine: SubmitHandler<MedicineFormInputs> = async (data) => {
     try {
       setIsLoading(true);
       setError("");
-      await axios.post(`/api/medicine`, { name: value });
-      enqueueSnackbar(<Typography>{value} medicine name added.</Typography>, {
+      await axios.post(`/api/medicine`, { ...data });
+      enqueueSnackbar(<Typography>{data?.name} added.</Typography>, {
         variant: "success",
       });
       refetch();
-      setValue("");
+      reset();
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       setError(error?.response?.data?.message || "Sorry! Something went wrong");
@@ -63,15 +73,39 @@ export default function AddMedicine({ refetch }: { refetch: () => void }) {
                   <Close />
                 </IconButton>
               </div>
-              <form onSubmit={addMedicine}>
+              <form onSubmit={handleSubmit(addMedicine)}>
                 <div className="flex flex-col gap-5 mt-5">
                   <TextField
                     fullWidth
                     label="Medicine Name"
                     placeholder="Write Medicine Name"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    error={Boolean(errors["name"])}
+                    {...register("name", { required: true })}
                   />
+
+                  <Controller
+                    control={control}
+                    name="generic"
+                    rules={{ required: true }}
+                    render={({
+                      field: { value, onChange },
+                      fieldState: { error },
+                    }) => (
+                      <Autocomplete
+                        options={[]}
+                        value={value}
+                        noOptionsText="No Generic Available"
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Generic"
+                            error={Boolean(error)}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+
                   {error && (
                     <Typography
                       variant="subtitle2"
@@ -86,7 +120,7 @@ export default function AddMedicine({ refetch }: { refetch: () => void }) {
                     startIcon={!isLoading && <Add />}
                     className="!capitalize"
                     variant="contained"
-                    disabled={isLoading || value?.length <= 0}
+                    disabled={isLoading}
                   >
                     {isLoading ? (
                       <CircularProgress size={20} color="inherit" />
