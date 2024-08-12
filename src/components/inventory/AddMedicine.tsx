@@ -1,6 +1,7 @@
 "use client";
 
 import type { MedicineFormInputs } from "@/types/reactHookForm.types";
+import type { Generic } from "@/types/types";
 import { Add, Close } from "@mui/icons-material";
 import {
   Autocomplete,
@@ -8,6 +9,7 @@ import {
   CircularProgress,
   Dialog,
   IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,7 +17,95 @@ import axios, { AxiosError } from "axios";
 import PopupState, { bindDialog, bindTrigger } from "material-ui-popup-state";
 import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import {
+  Controller,
+  SubmitHandler,
+  UseControllerProps,
+  useForm,
+} from "react-hook-form";
+import { useQuery } from "react-query";
+
+const SelectGeneric = ({
+  form: { control },
+}: {
+  form: UseControllerProps<MedicineFormInputs>;
+}) => {
+  //
+  const [search, setSearch] = useState<string>("");
+
+  // react-query
+  const { data: generics, isLoading } = useQuery<{
+    count: number;
+    data: Generic[];
+  }>({
+    queryKey: ["generics", search],
+    queryFn: async () => {
+      const res = await axios.get(`/api/medicine-generic`, {
+        params: {
+          search: "",
+          page: 1,
+          limit: 50,
+        },
+      });
+      return res.data;
+    },
+  });
+
+  const options = Array.isArray(generics?.data) ? generics.data : [];
+
+  const debounce = (func: any, delay: number = 500) => {
+    let timeout: any;
+
+    return function (...args: any) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  return (
+    <Controller
+      control={control}
+      name="generic"
+      rules={{ required: true }}
+      render={({ field: { value, onChange }, fieldState: { error } }) => (
+        <Autocomplete
+          options={options}
+          value={value || null}
+          getOptionLabel={(option) => option?.name}
+          isOptionEqualToValue={(option, val) => option?.id === val?.id}
+          loading={isLoading}
+          loadingText="Search Generics"
+          onInputChange={debounce((_: any, e: any) => setSearch(e))}
+          onChange={(_, e) => onChange(e || undefined)}
+          noOptionsText="No Generic Available"
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Select Generic"
+              error={Boolean(error)}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {isLoading ? (
+                      <InputAdornment position="end">
+                        <CircularProgress color="inherit" size={20} />
+                      </InputAdornment>
+                    ) : (
+                      params.InputProps.endAdornment
+                    )}
+                  </>
+                ),
+              }}
+            />
+          )}
+        />
+      )}
+    />
+  );
+};
 
 export default function AddMedicine({ refetch }: { refetch: () => void }) {
   // states
@@ -36,7 +126,10 @@ export default function AddMedicine({ refetch }: { refetch: () => void }) {
     try {
       setIsLoading(true);
       setError("");
-      await axios.post(`/api/medicine`, { ...data });
+      await axios.post(`/api/medicine`, {
+        name: data.name,
+        genericId: data?.generic?.id,
+      });
       enqueueSnackbar(<Typography>{data?.name} added.</Typography>, {
         variant: "success",
       });
@@ -83,27 +176,11 @@ export default function AddMedicine({ refetch }: { refetch: () => void }) {
                     {...register("name", { required: true })}
                   />
 
-                  <Controller
-                    control={control}
-                    name="generic"
-                    rules={{ required: true }}
-                    render={({
-                      field: { value, onChange },
-                      fieldState: { error },
-                    }) => (
-                      <Autocomplete
-                        options={[]}
-                        value={value}
-                        noOptionsText="No Generic Available"
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Select Generic"
-                            error={Boolean(error)}
-                          />
-                        )}
-                      />
-                    )}
+                  <SelectGeneric
+                    form={{
+                      control: control,
+                      name: "generic",
+                    }}
                   />
 
                   {error && (
